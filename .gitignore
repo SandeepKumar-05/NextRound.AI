@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+dist/
+build/
+*.log
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-error.log
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend secrets
+/backend/.env
+/backend/.env.*
+/backend/keys*
+/backend/*secret*.py
+
+# Frontend secrets
+/frontend/.env
+/frontend/.env.*
+
+# Docker
+.dockerignore
+docker-compose.override.yml
