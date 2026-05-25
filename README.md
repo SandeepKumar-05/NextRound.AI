@@ -18,11 +18,10 @@ ai-mock-interview-platform/
 └── frontend/
     ├── src/
     │   └── app/
-    │       ├── layout.tsx     # Root layout + metadata
-    │       ├── page.tsx       # Landing page (upload, JD, company selector)
+    │       ├── layout.js    # Root layout + metadata
+    │       ├── page.js       # Landing page (upload, JD, company selector)
     │       └── globals.css    # Design tokens & Tailwind base
-    ├── tailwind.config.ts
-    ├── next.config.ts
+    ├── next.config.js
     ├── tsconfig.json
     ├── package.json
     └── .env.local.example
