@@ -1,130 +1,154 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import InterviewChat from '../../components/InterviewChat'
-import FeedbackCard from '../../components/FeedbackCard'
 
-export default function InterviewPage() {
-  const [questions, setQuestions] = useState([])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [answer, setAnswer] = useState('')
-  const [feedback, setFeedback] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [submitting, setSubmitting] = useState(false)
-  const [allFeedback, setAllFeedback] = useState([])
-  const [error, setError] = useState('')
+export default function ResultsPage() {
+  const [interviewFeedback, setInterviewFeedback] = useState([])
+  const [codingFeedback, setCodingFeedback] = useState(null)
   const router = useRouter()
 
   useEffect(() => {
-    const sessionId = localStorage.getItem('session_id')
-    if (!sessionId) {
-      router.push('/upload')
-      return
-    }
-
-    fetch(`http://localhost:8000/interview/questions/${sessionId}`)
-      .then(r => {
-        if (!r.ok) throw new Error('Failed to load questions')
-        return r.json()
-      })
-      .then(data => {
-        setQuestions(data.questions)
-        setLoading(false)
-      })
-      .catch(err => {
-        setError(err.message)
-        setLoading(false)
-      })
+    const iv = localStorage.getItem('interview_feedback')
+    const cd = localStorage.getItem('coding_feedback')
+    if (iv) setInterviewFeedback(JSON.parse(iv))
+    if (cd) setCodingFeedback(JSON.parse(cd))
   }, [])
 
-  async function submitAnswer() {
-    const sessionId = localStorage.getItem('session_id')
-    setSubmitting(true)
-    setError('')
+  const interviewAvg = interviewFeedback.length
+    ? Math.round(
+        interviewFeedback.reduce((s, i) => s + (i.feedback?.score || 0), 0) /
+          interviewFeedback.length
+      )
+    : 0
 
-    try {
-      const res = await fetch('http://localhost:8000/interview/evaluate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          session_id: sessionId,
-          question: questions[currentIndex],
-          answer,
-        }),
-      })
-      const data = await res.json()
-      setFeedback(data)
-      setAllFeedback(prev => [
-        ...prev,
-        { question: questions[currentIndex], answer, feedback: data },
-      ])
-    } catch {
-      setError('Failed to evaluate answer. Please try again.')
-    } finally {
-      setSubmitting(false)
-    }
+  const codingScore = codingFeedback?.score || 0
+
+  const overallAvg = codingFeedback
+    ? Math.round((interviewAvg + codingScore) / 2)
+    : interviewAvg
+
+  function getScoreColor(score) {
+    if (score >= 8) return '#16a34a'
+    if (score >= 5) return '#d97706'
+    return '#dc2626'
   }
 
-  function nextQuestion() {
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(i => i + 1)
-      setAnswer('')
-      setFeedback(null)
-    } else {
-      localStorage.setItem('interview_feedback', JSON.stringify(allFeedback))
-      router.push('/coding')
-    }
+  function getScoreLabel(score) {
+    if (score >= 8) return 'Excellent'
+    if (score >= 6) return 'Good'
+    if (score >= 4) return 'Average'
+    return 'Needs Improvement'
   }
 
-  if (loading) return <div className="page-container"><p className="loading-text">Loading your questions...</p></div>
-  if (error) return <div className="page-container"><div className="error-box">{error}</div></div>
-  if (questions.length === 0) return <div className="page-container"><p className="loading-text">No questions found. Please try uploading again.</p></div>
-
-  const progress = ((currentIndex + 1) / questions.length) * 100
+  function restart() {
+    localStorage.clear()
+    router.push('/')
+  }
 
   return (
     <div className="page-container">
-      <h1>Mock Interview</h1>
-
-      <div className="progress-bar">
-        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-      </div>
-      <p className="question-count">
-        Question {currentIndex + 1} of {questions.length}
+      <h1>Your Results</h1>
+      <p className="subtitle">
+        Here is your full performance breakdown across the entire interview.
       </p>
 
-      <InterviewChat question={questions[currentIndex]} />
+      <div className="score-card">
+        <div className="big-score" style={{ color: getScoreColor(overallAvg) }}>
+          {overallAvg}<span>/10</span>
+        </div>
+        <div className="score-label">Overall Score</div>
+        <div className="score-verdict" style={{ color: getScoreColor(overallAvg) }}>
+          {getScoreLabel(overallAvg)}
+        </div>
+      </div>
 
-      {!feedback && (
+      <div className="score-grid">
+        <div className="mini-score-card">
+          <div className="mini-score" style={{ color: getScoreColor(interviewAvg) }}>
+            {interviewAvg}/10
+          </div>
+          <div className="mini-label">Interview Average</div>
+        </div>
+        {codingFeedback && (
+          <div className="mini-score-card">
+            <div className="mini-score" style={{ color: getScoreColor(codingScore) }}>
+              {codingScore}/10
+            </div>
+            <div className="mini-label">Coding Score</div>
+          </div>
+        )}
+      </div>
+
+      <h2>Interview Feedback</h2>
+      {interviewFeedback.length === 0 && (
+        <p className="loading-text">No interview feedback found.</p>
+      )}
+      {interviewFeedback.map((item, i) => (
+        <div className="result-item" key={i}>
+          <p className="result-question">
+            <strong>Q{i + 1}:</strong> {item.question}
+          </p>
+          <p className="result-answer">
+            <em>Your answer:</em> {item.answer}
+          </p>
+          <div className="result-feedback">
+            <span
+              className="score-badge"
+              style={{
+                background: getScoreColor(item.feedback?.score) + '20',
+                color: getScoreColor(item.feedback?.score),
+              }}
+            >
+              Score: {item.feedback?.score}/10
+            </span>
+            {item.feedback?.good && (
+              <p><strong>What was good:</strong> {item.feedback.good}</p>
+            )}
+            {item.feedback?.missing && (
+              <p><strong>What was missing:</strong> {item.feedback.missing}</p>
+            )}
+            {item.feedback?.ideal && (
+              <p><strong>Ideal answer:</strong> {item.feedback.ideal}</p>
+            )}
+          </div>
+        </div>
+      ))}
+
+      {codingFeedback && (
         <>
-          <textarea
-            className="answer-input"
-            placeholder="Type your answer here..."
-            value={answer}
-            onChange={e => setAnswer(e.target.value)}
-            rows={6}
-          />
-          {error && <div className="error-box">{error}</div>}
-          <button
-            className="btn-primary"
-            onClick={submitAnswer}
-            disabled={submitting || !answer.trim()}
-          >
-            {submitting ? 'Evaluating...' : 'Submit Answer'}
-          </button>
+          <h2>Coding Feedback</h2>
+          <div className="result-item">
+            <span
+              className="score-badge"
+              style={{
+                background: getScoreColor(codingFeedback.score) + '20',
+                color: getScoreColor(codingFeedback.score),
+              }}
+            >
+              Score: {codingFeedback.score}/10
+            </span>
+            {codingFeedback.correct && (
+              <p style={{ marginTop: '8px' }}>
+                <strong>Correct:</strong> {codingFeedback.correct}
+              </p>
+            )}
+            {codingFeedback.feedback && (
+              <p style={{ marginTop: '6px' }}>
+                <strong>Feedback:</strong> {codingFeedback.feedback}
+              </p>
+            )}
+            {codingFeedback.optimized && (
+              <p style={{ marginTop: '6px' }}>
+                <strong>Optimized solution:</strong> {codingFeedback.optimized}
+              </p>
+            )}
+          </div>
         </>
       )}
 
-      {feedback && (
-        <>
-          <FeedbackCard feedback={feedback} />
-          <button className="btn-primary" onClick={nextQuestion}>
-            {currentIndex + 1 < questions.length
-              ? 'Next Question →'
-              : 'Go to Coding Test →'}
-          </button>
-        </>
-      )}
+      <button className="btn-primary" onClick={restart}>
+        Start New Interview
+      </button>
     </div>
   )
 }
