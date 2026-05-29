@@ -5,31 +5,6 @@
 
 ---
 
-## Project Layout
-
-```
-ai-mock-interview-platform/
-├── backend/
-│   ├── main.py                # FastAPI app — routes & CORS
-│   ├── mock_questions.json    # Seed dataset (Google, Meta, Amazon questions)
-│   ├── requirements.txt
-│   ├── .env.example
-│   └── README.md
-└── frontend/
-    ├── src/
-    │   └── app/
-    │       ├── layout.js    # Root layout + metadata
-    │       ├── page.js       # Landing page (upload, JD, company selector)
-    │       └── globals.css    # Design tokens & Tailwind base
-    ├── next.config.js
-    ├── tsconfig.json
-    ├── package.json
-    └── .env.local.example
-```
-
----
-
----
 
 ## Roadmap
 
