@@ -30,7 +30,7 @@ export default function CodingPage() {
       return
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/coding/problem/${sessionId}`)
+    fetch(`/api/coding/problem/${sessionId}`)
       .then(r => {
         if (!r.ok) throw new Error('Failed to load coding problem')
         return r.json()
@@ -58,7 +58,7 @@ export default function CodingPage() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/coding/evaluate`,
+        `/api/coding/evaluate`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

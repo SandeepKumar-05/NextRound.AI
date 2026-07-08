@@ -22,7 +22,7 @@ export default function InterviewPage() {
       return
     }
 
-    fetch(`http://localhost:8000/interview/questions/${sessionId}`)
+    fetch(`/api/interview/questions/${sessionId}`)
       .then(r => {
         if (!r.ok) throw new Error('Failed to load questions')
         return r.json()
@@ -43,7 +43,7 @@ export default function InterviewPage() {
     setError('')
 
     try {
-      const res = await fetch('http://localhost:8000/interview/evaluate', {
+      const res = await fetch('/api/interview/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

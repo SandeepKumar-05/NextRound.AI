@@ -1,0 +1,101 @@
+[
+  {
+    "id": "goog-001",
+    "company": "Google",
+    "role": "Software Engineer (L4)",
+    "question_type": "Technical",
+    "question_text": "Given an array of integers and a target sum, return the indices of the two numbers that add up to the target. You may assume exactly one solution exists and you may not use the same element twice. Optimise your solution to O(n) time complexity.",
+    "difficulty": "Medium",
+    "tags": ["arrays", "hash-map", "two-sum"],
+    "hint": "A single-pass hash map avoids the O(n²) brute-force approach.",
+    "follow_ups": [
+      "What if the input array is sorted — how would that change your approach?",
+      "Can you extend the solution to find all triplets that sum to zero (3Sum)?"
+    ]
+  },
+  {
+    "id": "goog-002",
+    "company": "Google",
+    "role": "Software Engineer (L5)",
+    "question_type": "System Design",
+    "question_text": "Design Google Docs. Describe how you would support real-time collaborative editing where multiple users can simultaneously edit the same document without conflicts. Address data consistency, low-latency syncing, and offline support.",
+    "difficulty": "Hard",
+    "tags": ["system-design", "CRDT", "OT", "websockets", "distributed-systems"],
+    "hint": "Consider Operational Transformation (OT) or CRDTs for conflict resolution. Explore WebSocket-based pub/sub for real-time sync.",
+    "follow_ups": [
+      "How would you handle a user with a very slow network connection?",
+      "How would you scale the collaboration service to 1 billion documents?",
+      "How would you implement version history and diff visualization?"
+    ]
+  },
+  {
+    "id": "goog-003",
+    "company": "Google",
+    "role": "Software Engineer (L4/L5)",
+    "question_type": "Behavioral",
+    "question_text": "Tell me about a time you had to deliver a project under a very tight deadline. How did you prioritise tasks, manage stakeholder expectations, and ensure quality was not compromised?",
+    "difficulty": "Medium",
+    "tags": ["behavioral", "project-management", "prioritization", "STAR-method"],
+    "hint": "Use the STAR framework: Situation, Task, Action, Result. Quantify the impact where possible.",
+    "follow_ups": [
+      "What would you do differently if you faced that situation again?",
+      "How did you handle team members who were blocked or falling behind?"
+    ]
+  },
+  {
+    "id": "goog-004",
+    "company": "Google",
+    "role": "Software Engineer (L4)",
+    "question_text": "Implement an LRU (Least Recently Used) cache with O(1) time complexity for both get and put operations.",
+    "question_type": "Technical",
+    "difficulty": "Medium",
+    "tags": ["data-structures", "linked-list", "hash-map", "design"],
+    "hint": "Combine a doubly linked list (for O(1) removal and insertion) with a hash map for O(1) lookup.",
+    "follow_ups": [
+      "How would you make this cache thread-safe for concurrent access?",
+      "How would you extend this to an LFU (Least Frequently Used) cache?"
+    ]
+  },
+  {
+    "id": "goog-005",
+    "company": "Google",
+    "role": "Software Engineer (L5)",
+    "question_text": "Design a distributed key-value store similar to Google Bigtable or Amazon DynamoDB. Focus on partitioning, replication, consistency, and fault tolerance.",
+    "question_type": "System Design",
+    "difficulty": "Hard",
+    "tags": ["system-design", "distributed-systems", "key-value-store", "CAP-theorem"],
+    "hint": "Start with the CAP theorem trade-offs, then discuss consistent hashing for partitioning, replication factor, and quorum reads/writes.",
+    "follow_ups": [
+      "How do you handle node failures during a write operation?",
+      "Explain the difference between eventual consistency and strong consistency in your design."
+    ]
+  },
+  {
+    "id": "meta-001",
+    "company": "Meta",
+    "role": "Software Engineer (E4)",
+    "question_type": "Technical",
+    "question_text": "Given the root of a binary tree, return the level-order traversal of its nodes' values (i.e., from left to right, level by level).",
+    "difficulty": "Easy",
+    "tags": ["trees", "BFS", "binary-tree"],
+    "hint": "Use a queue (deque) to process nodes level by level.",
+    "follow_ups": [
+      "How would you return the values in a zigzag level order?",
+      "What is the space complexity of your BFS solution?"
+    ]
+  },
+  {
+    "id": "amzn-001",
+    "company": "Amazon",
+    "role": "Software Development Engineer (SDE II)",
+    "question_type": "Behavioral",
+    "question_text": "Describe a situation where you had to make a decision with incomplete or ambiguous data. How did you move forward and what was the outcome?",
+    "difficulty": "Medium",
+    "tags": ["behavioral", "amazon-leadership-principles", "bias-for-action", "decision-making"],
+    "hint": "Map your story to Amazon's 'Bias for Action' and 'Are Right, A Lot' leadership principles.",
+    "follow_ups": [
+      "What metrics did you use to validate your decision after the fact?",
+      "How did you communicate uncertainty to your stakeholders?"
+    ]
+  }
+]

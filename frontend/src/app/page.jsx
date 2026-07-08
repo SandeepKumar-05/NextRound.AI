@@ -204,7 +204,7 @@ export default function HomePage() {
       formData.append("job_description", jobDescription);
       formData.append("company", company);
 
-      const response = await fetch("http://localhost:8000/api/v1/interview/analyze", {
+      const response = await fetch("/api/v1/interview/analyze", {
         method: "POST",
         body: formData,
       });
@@ -371,7 +371,7 @@ export default function HomePage() {
       </main>
 
       <footer className="site-footer">
-        <p>© {new Date().getFullYear()} InterviewAI · Built with FastAPI, Next.js, LangChain & Pinecone</p>
+        <p>© {new Date().getFullYear()} InterviewAI · Built with Next.js, LangChain & Pinecone</p>
       </footer>
     </div>
   );
