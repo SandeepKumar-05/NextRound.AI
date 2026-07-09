@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
-import FeedbackCard from '../../components/FeedbackCard'
-import ProgressBar from '../../components/ProgressBar'
+import FeedbackCard from '../../Components/Feedbackcard'
+import ProgressBar from '../../Components/ProgressBar'
 
-const CodeEditor = dynamic(() => import('../../components/CodeEditor'), { ssr: false })
+const CodeEditor = dynamic(() => import('../../Components/CodeEditor'), { ssr: false })
 
 const defaultCode = {
   python: '# Write your solution here\ndef solution():\n    pass\n',

@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import InterviewChat from '../../components/InterviewChat'
-import FeedbackCard from '../../components/FeedbackCard'
+import InterviewChat from '../../Components/InterviewChat'
+import FeedbackCard from '../../Components/Feedbackcard'
 
 export default function InterviewPage() {
   const [questions, setQuestions] = useState([])

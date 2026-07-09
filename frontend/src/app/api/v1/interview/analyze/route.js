@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import mockQuestions from '@/data/mock_questions.json';
+import mockQuestions from '../../../../../data/mock_questions.json';
 
 export async function POST(request) {
   try {
